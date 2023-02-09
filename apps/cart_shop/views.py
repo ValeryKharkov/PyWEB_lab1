@@ -6,3 +6,6 @@ class ViewCart(View):
    def get(self, request):
        return render(request, 'cart_shop/cart.html')
 
+class ViewWishlist(View):
+   def get(self, request):
+       return render(request, 'cart_shop/wishlist.html')
