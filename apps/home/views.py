@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from django.views import View
+from apps.cart_shop.models import Product
+
 
 
 class IndexShopView(View):
    def get(self, request):
+       """
        context = {'data': [{'name': 'Bell Pepper',
                             'discount': 30,
                             'price_before': 120.00,
@@ -40,7 +43,10 @@ class IndexShopView(View):
                             'url': 'shop/images/product-8.jpg'},
                            ]
                   }
-
+"""
+       data = Product.objects.all()
+       context = {'data': data
+                  }
        return render(request, 'home/index.html', context)
 
 
