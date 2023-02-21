@@ -110,26 +110,27 @@
 						      </tr>
 						    </thead>
 						    <tbody>
+							{% for item in cart_items %}
 						      <tr class="text-center">
 						        <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
 						        
-						        <td class="image-prod"><div class="img" style="background-image:url({% static 'shop/images/product-3.jpg'%});"></div></td>
+						        <td class="image-prod"><div class="img" style="background-image:url({{item.product.image.url}});"></div></td>
 						        
 						        <td class="product-name">
-						        	<h3>Bell Pepper</h3>
-						        	<p>Far far away, behind the word mountains, far from the countries</p>
+						        	<h3>{{item.product.name}}</h3>
+						        	<p>{{item.product.description}}</p>
 						        </td>
+
+									<td class="quantity">
+			  						<div class="input-group mb-3">
+				 					 <input type="text" name="quantity" class="quantity form-control input-number" value={{item.quantity}} min="1" max="100">
+			  						</div>
+		  							 </td>
+
 						        
-						        <td class="price">$4.90</td>
-						        
-						        <td class="quantity">
-						        	<div class="input-group mb-3">
-					             	<input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-					          	</div>
-					          </td>
-						        
-						        <td class="total">$4.90</td>
+						        <td class="total">${% widthratio item.product.price 1 item.quantity %}</td>
 						      </tr><!-- END TR-->
+							{%endfor%}
 
 						      <tr class="text-center">
 						        <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
