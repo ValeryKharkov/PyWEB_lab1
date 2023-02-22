@@ -18,12 +18,23 @@ class ViewCart(View):
        return render(request, 'cart_shop/cart.html', context)
 
 
-class ViewCartBuy(View):
-   def get(self, request, product_id):
+def save_product_in_cart(request, product_id):
+   cart_items = CartItemShop.objects.filter(cart__user=request.user,
+                                            product__id=product_id)
+   if cart_items:
+       cart_item = cart_items[0]
+       cart_item.quantity += 1
+   else:
        product = get_object_or_404(Product, id=product_id)
        cart_user = get_object_or_404(Cart, user=request.user)
        cart_item = CartItemShop(cart=cart_user, product=product)
-       cart_item.save()
+   cart_item.save()
+
+
+
+class ViewCartBuy(View):
+   def get(self, request, product_id):
+       save_product_in_cart(request, product_id)
        return redirect('cart_shop:cart')
 
 
@@ -36,11 +47,8 @@ class ViewCartDel(View):
 
 class ViewCartAdd(View):
    def get(self, request, product_id):
-       product = get_object_or_404(Product, id=product_id)
-       cart_user = get_object_or_404(Cart, user=request.user)
-       cart_item = CartItemShop(cart=cart_user, product=product)
-       cart_item.save()
-       return redirect('home:index')
+    save_product_in_cart(request, product_id)
+    return redirect('home:index')
 
 
 class ViewWishlist(View):
