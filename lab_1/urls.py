@@ -30,4 +30,5 @@ urlpatterns = [
     path('shop/', include('apps.shop.urls')),
     path('login/', include('apps.auth_shop.urls')),
 
+
 ]
