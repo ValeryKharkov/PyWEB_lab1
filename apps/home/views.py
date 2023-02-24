@@ -58,3 +58,8 @@ class IndexAbout(View):
 class IndexContact(View):
    def get(self, request):
        return render(request, 'home/contact.html')
+
+
+class IndexBlog(View):
+   def get(self, request):
+       return render(request, 'home/blog.html')
