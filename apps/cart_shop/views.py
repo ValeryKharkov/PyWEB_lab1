@@ -53,4 +53,10 @@ class ViewCartAdd(View):
 
 class ViewWishlist(View):
    def get(self, request):
-       return render(request, 'cart_shop/wishlist.html')
+       context = {'data': [{'name': 'Имя овоща',
+                            'price_before': 120.00,
+                            'url': 'shop/images/product-1.jpg'}
+                           ]
+                  }
+
+       return render(request, 'cart_shop/wishlist.html', context)
