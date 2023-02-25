@@ -2,8 +2,6 @@
 {% load static %}
 
 {% block content %}
-
-
     <div class="hero-wrap hero-bread" style="background-image: url({% static 'shop/images/bg_1.jpg'%});">
       <div class="container">
         <div class="row no-gutters slider-text align-items-center justify-content-center">
@@ -33,28 +31,30 @@
 						    </thead>
 						    <tbody>
 
-								{% for product in data %}
+
+								{% for item in cart_items %}
 
 						      <tr class="text-center">
 						        <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
 						        
-						        <td class="image-prod"><div class="img" style="background-image:url({% static product.url %});"></div></td>
+						        <td class="image-prod"><div class="img" style="background-image:url({{item.product.image.url}});"></div></td>
 						        
 						        <td class="product-name">
-						        	<h3>{{product.name}}</h3>
-						        	<p>Наконец я разобрался как работать с шаблонами зачётного задания</p>
+						        	<h3>{{item.product.name}}</h3>
+						        	<p>{{item.product.description}}</p>
 						        </td>
 						        
-						        <td class="price">{{product.price_before}}</td>
+						        <td class="price">{{item.product.price}}</td>
 						        
 						        <td class="quantity">
 						        	<div class="input-group mb-3">
-					             	<input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
+					             	<input type="text" name="quantity" class="quantity form-control input-number" value={{item.quantity}} min="1" max="100">
 					          	</div>
 					          </td>
 						        
-						        <td class="total">$4.90</td>
-						      </tr><!-- END TR-->
+						        <td class="total">${% widthratio item.product.price 1 item.quantity %}</td>
+						      </tr>
+								<!-- END TR-->
 
 								{% endfor %}
 
@@ -71,5 +71,4 @@
       <div class="container py-4">
         <div class="row d-flex justify-content-center py-5">
           <div class="col-md-6">
-
-			  {% endblock %}
+{% endblock %}

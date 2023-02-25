@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import render
 from django.views import View
-from .models import CartItemShop, Cart, Product
+from .models import CartItemShop, Cart, Product, WishList
+from django.contrib.auth.models import User
 
 
 class ViewCart(View):
@@ -50,13 +52,58 @@ class ViewCartAdd(View):
     save_product_in_cart(request, product_id)
     return redirect('home:index')
 
-
+'''
 class ViewWishlist(View):
-   def get(self, request):
-       context = {'data': [{'name': 'Имя овоща',
+    def get(self, request):
+        data = Product.objects.all()
+        context = {'data': data
+                   }
+        return render(request, 'cart_shop/wishlist.html', context)
+
+       context = {'data': [{'name': 'Название овоща из context',
                             'price_before': 120.00,
                             'url': 'shop/images/product-1.jpg'}
                            ]
                   }
+'''
 
-       return render(request, 'cart_shop/wishlist.html', context)
+
+
+
+
+
+class ViewWishlist(View):
+    def get(self, request):
+        if not request.user.is_authenticated:
+            return render(request, 'cart_shop/404.html')
+        cart_items = WishList.objects.filter(cart__user=request.user)
+        data = list(cart_items)
+        context = {'cart_items': data}
+        return render(request, 'cart_shop/wishlist.html', context)
+
+'''
+class WishlistAdd(View):
+    def get(self, request, product_id):
+        if not request.user.is_authenticated:
+            return render(request, 'cart_shop/404.html')
+        wish_items = WishList.objects.filter(cart__user=request.user,
+                                             product__id=product_id)
+        if not wish_items:
+            product = get_object_or_404(Product, id=product_id)
+            cart_user = get_object_or_404(Cart, user=request.user)
+            wish_item = WishList(cart=cart_user, product=product)
+            wish_item.save()
+        wish_items = WishList.objects.filter(cart__user=request.user)
+        data = list(wish_items)
+        context = {'cart_items': data}
+        return render(request, 'cart_shop/wishlist.html', context)
+
+
+class WishListDel(View):
+   def get(self, request, product_id):
+       wish_item = get_object_or_404(WishList, id=product_id)
+       wish_item.delete()
+       return redirect('cart_shop:wishlist')
+       
+'''
+
