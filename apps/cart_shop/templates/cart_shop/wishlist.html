@@ -35,7 +35,7 @@
 								{% for item in cart_items %}
 
 						      <tr class="text-center">
-						        <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
+						        <td class="product-remove"><a href="{% url 'cart_shop:remove_from_wish' item.id %}"><span class="ion-ios-close"></span></a></td>
 						        
 						        <td class="image-prod"><div class="img" style="background-image:url({{item.product.image.url}});"></div></td>
 						        
